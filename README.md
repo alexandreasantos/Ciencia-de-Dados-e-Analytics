@@ -104,6 +104,5 @@ Este projeto é acadêmico e para fins educacionais, desenvolvido no contexto da
 
 **Alexandre Alves dos Santos de Campos**  
 **Matrícula:** 2025000  
-[LinkedIn](#) | [GitHub](#)
 
 ---
