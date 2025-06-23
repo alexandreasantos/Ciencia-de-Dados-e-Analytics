@@ -7,7 +7,7 @@ Este projeto faz parte do desenvolvimento de um MVP para análise exploratória 
 - 🔍 Análise baseada em dados históricos de preços coletados via **Yahoo Finance**.
 - 📈 Construção de **índices sintéticos locais e globais**, que representam a força relativa do mercado interno e externo.
 - 🧠 Avaliação de **correlações, sensibilidades e padrões contextuais** para apoiar a geração futura de sinais operacionais.
-- 🚀 Este projeto é a **etapa inicial de um pipeline de Machine Learning**, focado na geração de sinais de compra, venda ou neutralidade no mercado de derivativos.
+- 🚀 Este projeto é a **etapa inicial de um pipeline de Machine Learning**, focado na geração de sinais de compra, venda ou neutralidade no mercado de renda variável.
 
 ---
 
