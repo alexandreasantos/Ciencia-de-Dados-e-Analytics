@@ -1,4 +1,4 @@
-# 📊 MVP — Análise de Dados e Contexto para Mercado Financeiro
+# 📊 MVP — Análise de Dados para Mercado Financeiro
 
 Este projeto faz parte do desenvolvimento de um MVP para análise exploratória de dados financeiros, com o objetivo de entender a influência dos principais ativos locais (Brasil) e globais sobre os contratos futuros **Mini Índice (WINFUT)** e **Mini Dólar (DOLFUT)** negociados na B3.
 
