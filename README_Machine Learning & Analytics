@@ -1,0 +1,107 @@
+# MVP – Machine Learning & Analytics (DOLFUT)
+
+## Descrição do Problema
+O mercado financeiro é caracterizado por **alta volatilidade** e pela dificuldade histórica em prever movimentos de forma consistente.  
+Apesar da ampla utilização de indicadores técnicos e estatísticos, traders e investidores enfrentam limitações ao tentar antecipar mudanças de tendência com precisão.
+
+**Questão central:**  
+Será que **modelos de regressão e classificação aplicados a séries temporais** podem identificar padrões relevantes e auxiliar na predição da **direção futura do Mini Dólar (DOLFUT)**?
+
+## Objetivo
+Explorar a aplicação de **modelos de machine learning** (LSTM e Gradient Boosting) em séries temporais financeiras, avaliando se a variação dos **retornos** e das **correlações** entre ativos locais e globais pode ser utilizada para estimar **tendências futuras no Mini Dólar (DOLFUT)**.
+
+Além disso, o MVP busca:
+- Comparar modelos tradicionais (GBM) com modelos neurais (LSTM).  
+- Verificar se técnicas de regressão e classificação trazem **ganhos reais sobre o baseline de persistência**.  
+- Gerar **insights quantitativos** que possam ser utilizados como base para estratégias de trading mais robustas.
+
+
+## Hipótese
+A principal hipótese que orienta este trabalho é:
+
+> A dificuldade de prever o movimento do mercado pode ser **parcialmente reduzida** utilizando modelos de regressão e classificação capazes de estimar tendências a partir de variáveis locais e globais.
+
+Assim, espera-se que:
+- Regressões bem definidas possam transformar **dados históricos** em **sinais operacionais mais robustos**.  
+- Modelos preditivos consigam superar abordagens triviais, como a **persistência**, oferecendo **vantagem estatística** em cenários de decisão.  
+- O enriquecimento do modelo com **informações externas** (ex.: DXY, SPX, Ibovespa, juros) melhore a capacidade de generalização.
+
+
+## Dataset
+- **Fonte:** [Yahoo Finance](https://finance.yahoo.com/)  
+- **Período:** 01/01/2023 → 31/12/2024  
+- **Frequência:** diária  
+- **Ativos principais:**  
+  - **USDBRL=X** → proxy para DOLFUT  
+  - **^BVSP** → proxy para Ibovespa (mercado local)  
+  - Ativos globais adicionais (índices, moedas e commodities)
+
+**Atributos coletados:**
+- Preços OHLC (Open, High, Low, Close)  
+- Fechamento Ajustado (Adj Close)  
+- Volume  
+- Retornos diários (`pct_change`)  
+- Features derivadas:  
+  - Lags de retornos  
+  - Médias móveis e desvios (5, 21, 42 dias)  
+  - Z-score e volatilidade  
+  - Índices sintéticos (local vs global)
+
+**Tratamento aplicado:**
+- Normalização **Min-Max (0–1)** para comparabilidade.  
+- Preenchimento **forward-fill** limitado a 3 dias para evitar perdas.  
+- Outliers **mantidos**, pois refletem eventos reais de mercado.  
+
+## Metodologia
+1. **Coleta de dados** → via `yfinance`.  
+2. **Pré-processamento**  
+   - Normalização (MinMaxScaler e RobustScaler).  
+   - Criação de features temporais (lags, rolling mean/std, z-score).  
+   - Split temporal (treino/validação/teste).  
+3. **Modelos testados**  
+   - **LSTM** → univariado, janelas de 21 dias, dropout, callbacks.  
+   - **GBM (Gradient Boosting)** → baseline não neural, com engenharia de features.  
+   - **Persistência** → último valor como referência.  
+4. **Validação**  
+   - **Cross-validation temporal** (TimeSeriesSplit).  
+   - **Baseline comparativo** para medir ganhos reais.  
+   - Métricas: RMSE, MAE, MAPE, MASE, Acurácia direcional, Precision, Recall, F1, AUC.  
+
+
+## Resultados
+
+### 🔹 LSTM (Preço normalizado)
+- RMSE e MAE próximos ao baseline de persistência.  
+- Modelo aprendeu tendência suavizada, mas **não superou a persistência**.  
+- Necessário incluir variáveis externas para maior robustez.  
+
+### 🔹 LSTM (Retornos padronizados)
+- Capturou melhor a **direção** (acurácia direcional ~50%).  
+- Recall baixo em dias de alta → viés defensivo.  
+
+### 🔹 GBM (Regressão e Classificação)
+- Serviu como baseline rápido e interpretável.  
+- Permitiu avaliar se o LSTM realmente agregava valor.  
+- Mostrou que engenharia de features é essencial em dados tabulares.  
+
+
+## Insights
+- O Mini Dólar (DOLFUT) apresenta **forte autocorrelação diária**, tornando a persistência um benchmark difícil de superar.  
+- Modelos univariados são insuficientes → é preciso **incorporar variáveis externas e contexto macroeconômico**.  
+- A correlação rolante **WINFUT × DOLFUT** confirmou relação inversa, mas com períodos de ruptura.  
+- Backtests mostraram que o LSTM classificatório falhou em capturar ralis, sofrendo drawdowns maiores que o Buy & Hold.  
+
+## Limitações
+- Dados apenas **diários** (sem granularidade intraday).  
+- Uso de **proxies do Yahoo Finance** em vez dos contratos futuros reais da B3.  
+- Horizonte curto de análise (2023–2024).  
+- Custos operacionais não incorporados nos backtests.  
+
+## Próximos Passos
+- Trabalhar com **log-retornos** para estacionarizar séries.  
+- Incluir **variáveis externas** (DXY, S&P500, juros, fluxo de estrangeiros).  
+- Expandir para **dados intradiários (1m/5m)**.  
+- Avaliar novos modelos: **ARIMA, Prophet, Transformers**.  
+- Refinar backtests: considerar **custos, slippage e hedge**.  
+- Criar pipeline completo com **walk-forward validation**.  
+
