@@ -25,6 +25,12 @@ O mercado financeiro é altamente volátil e difícil de prever. Este MVP explor
   - Médias móveis, z-scores, índices sintéticos  
   - Normalização (MinMaxScaler, RobustScaler)  
 
+##Pré-processamento
+  - Tratamento de valores ausentes e reamostragem para dias úteis  
+  - Cálculo de retornos (`pct_change`) e log-retornos  
+  - Normalização (MinMaxScaler) para padronizar a escala dos preços  
+  - Criação de features derivadas (lags, médias móveis, z-score)
+
 ## Modelos Utilizados
 - **LSTM (Long Short-Term Memory)** — abordagem univariada sobre preços  
 - **GBM (Gradient Boosting Machines)**  
@@ -36,6 +42,12 @@ O mercado financeiro é altamente volátil e difícil de prever. Este MVP explor
 - **Perdas robustas** (Huber Loss)  
 - **Pesos amostrais** para dar mais relevância a grandes movimentos  
 - **Baseline de Persistência** (preço de amanhã = preço de hoje)  
+
+##Avaliação e Backtest
+   - Métricas: RMSE, MAE, MAPE, MASE, acurácia direcional, F1, AUC  
+   - Comparação com estratégia de **Buy & Hold**  
+   - Cálculo de indicadores financeiros: Sharpe, CAGR, Max Drawdown  
+   - Backtest simples com custo de transação configurável
 
 ## Resultados
 
@@ -55,8 +67,25 @@ O mercado financeiro é altamente volátil e difícil de prever. Este MVP explor
 - **Accuracy:** ~0.52  
 - **F1-Score:** ~0.53  
 - **AUC:** ~0.51  
-- **Backtest simples:** **+8.28%** acumulado (*possível efeito de ruído*)  
+- **Backtest simples:** **+8.28%** acumulado (*possível efeito de ruído*)
 
+## Requisitos
+- Python 3.10 ou superior
+- Bibliotecas principais:
+  - `pandas`, `numpy`, `scipy`, `yfinance`
+  - `matplotlib`, `plotly`
+  - `scikit-learn`
+  - `tensorflow` (para LSTM)
+  - (opcional) `xgboost`, `lightgbm`, `prophet`, `statsmodels`
+
+## Principais Conclusões
+- A **persistência** (baseline) é um benchmark forte para o DOLFUT, devido à sua alta autocorrelação diária.  
+- A **LSTM univariada** não superou a persistência usando apenas preços brutos.  
+- O **GBM para classificação direcional** obteve alta acurácia, porém retorno financeiro inferior ao Buy & Hold.  
+- Para superar o baseline, recomenda-se:
+  - Uso de **log-retornos** ou janelas de previsão diferentes (ex.: média de 5 dias)  
+  - Inclusão de **variáveis externas** (DXY, S&P500, juros, volatilidade)  
+  - Ajuste fino de hiperparâmetros e maior complexidade de rede.
 
 ## Limitações
 - Série curta (2023–2024)  
