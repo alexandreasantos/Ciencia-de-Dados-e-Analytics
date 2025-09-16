@@ -43,7 +43,7 @@ O mercado financeiro é altamente volátil e difícil de prever. Este MVP explor
 - **Pesos amostrais** para dar mais relevância a grandes movimentos  
 - **Baseline de Persistência** (preço de amanhã = preço de hoje)  
 
-##Avaliação e Backtest
+## Avaliação e Backtest
    - Métricas: RMSE, MAE, MAPE, MASE, acurácia direcional, F1, AUC  
    - Comparação com estratégia de **Buy & Hold**  
    - Cálculo de indicadores financeiros: Sharpe, CAGR, Max Drawdown  
