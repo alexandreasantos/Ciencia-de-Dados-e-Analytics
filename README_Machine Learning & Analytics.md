@@ -58,7 +58,7 @@ O mercado financeiro é altamente volátil e difícil de prever. Este MVP explor
 - **Backtest simples:** **+8.28%** acumulado (*possível efeito de ruído*)  
 
 
-## Limitações 🚧  
+## Limitações
 - Série curta (2023–2024)  
 - Modelos **univariados** (sem variáveis macro/exógenas)  
 - LSTM obteve resultados fracos em escala de preços  
